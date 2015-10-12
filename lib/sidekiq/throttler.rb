@@ -37,7 +37,8 @@ module Sidekiq
       end
 
       rate_limit.exceeded do |delay|
-        worker.class.perform_in(delay, *msg['args'])
+        fuzz = Random.rand(0.5..1.5)
+        worker.class.perform_in(fuzz * delay, *msg['args'])
       end
 
       rate_limit.execute
